@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 수업 1~4주차 복습 퀴즈</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4ef; --surface:#ffffff; --ink:#1f2328; --muted:#5f6670; --line:#e4e0d6;
+  --w1:#2f6fd6; --w2:#0f8a6c; --w3:#c26a12; --w4:#8a3fc9;
+  --ok:#127a46; --ok-bg:#e6f5ec; --no:#b3261e; --no-bg:#fdecea;
+  --code-bg:#1e2430; --code-ink:#e8edf5;
+  --r:16px;
+  --font-body:'Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:28px 20px 64px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand{font-weight:800;font-size:18px;letter-spacing:-0.01em}
+.brand small{display:block;font-weight:500;font-size:13px;color:var(--muted)}
+.score-pill{font-weight:700;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;white-space:nowrap}
+.progress{height:8px;background:#e9e5db;border-radius:99px;overflow:hidden;margin-bottom:8px}
+.progress > i{display:block;height:100%;width:0;background:var(--accent,var(--w1));border-radius:99px;transition:width .35s ease}
+.progress-label{font-size:13px;color:var(--muted);margin-bottom:18px;display:flex;justify-content:space-between}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 8px 24px rgba(60,50,20,.05)}
+.tags{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.tag{font-size:13px;font-weight:700;padding:3px 10px;border-radius:99px;color:#fff;background:var(--accent)}
+.tag.type{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+h2.q{font-size:21px;line-height:1.45;margin:0 0 16px;font-weight:700;letter-spacing:-0.01em}
+pre.code{background:var(--code-bg);color:var(--code-ink);font-family:var(--font-mono);font-size:14.5px;line-height:1.65;border-radius:12px;padding:16px 18px;margin:0 0 18px;overflow-x:auto;white-space:pre}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:inherit;background:#fbfaf7;border:2px solid var(--line);border-radius:12px;padding:13px 16px;cursor:pointer;transition:border-color .15s,background .15s,transform .05s}
+.opt:hover:not(:disabled){border-color:var(--accent);background:#fff}
+.opt:active:not(:disabled){transform:scale(.995)}
+.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.opt .num{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;background:#ece8de;color:var(--muted)}
+.opt .txt{flex:1;min-width:0;overflow-wrap:anywhere}
+.opt.mono .txt{font-family:var(--font-mono);font-size:15px}
+.opt:disabled{cursor:default}
+.opt.correct{border-color:var(--ok);background:var(--ok-bg)}
+.opt.correct .num{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--no);background:var(--no-bg)}
+.opt.wrong .num{background:var(--no);color:#fff}
+.opt.dim{opacity:.55}
+.feedback{margin-top:18px;border-radius:12px;padding:16px 18px;display:none}
+.feedback.show{display:block;animation:pop .25s ease}
+.feedback.ok{background:var(--ok-bg);border:1px solid #bfe3cd}
+.feedback.no{background:var(--no-bg);border:1px solid #f3c6c2}
+.feedback b{display:block;font-size:18px;margin-bottom:4px}
+.feedback.ok b{color:var(--ok)} .feedback.no b{color:var(--no)}
+.feedback p{margin:0;font-size:16px}
+@keyframes pop{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.btn{font:inherit;font-weight:700;font-size:16px;border:0;border-radius:12px;padding:12px 22px;cursor:pointer;background:var(--ink);color:#fff}
+.btn:disabled{opacity:.3;cursor:default}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn:focus-visible{outline:3px solid var(--accent,var(--w1));outline-offset:2px}
+/* start + result */
+.hero h1{font-size:28px;line-height:1.3;margin:0 0 8px;letter-spacing:-0.02em}
+.hero p{color:var(--muted);margin:0 0 20px}
+.weeks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 0 22px}
+.wk{border-radius:12px;padding:12px 14px;background:#fbfaf7;border:1px solid var(--line);border-left:5px solid var(--c)}
+.wk b{display:block;font-size:15px}
+.wk span{font-size:14px;color:var(--muted)}
+.howto{font-size:15px;color:var(--muted);background:#fbfaf7;border-radius:12px;padding:14px 16px;margin:0 0 22px}
+.howto li{margin:2px 0}
+.big-score{font-size:56px;font-weight:800;letter-spacing:-0.03em;line-height:1;margin:6px 0 4px}
+.big-score small{font-size:22px;color:var(--muted);font-weight:600}
+.msg{font-size:18px;font-weight:600;margin:6px 0 20px}
+.bars{display:grid;gap:12px;margin-bottom:22px}
+.bar-row{display:grid;grid-template-columns:110px 1fr 48px;align-items:center;gap:10px;font-size:15px}
+.bar{height:12px;background:#ece8de;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px}
+.wrong-list{margin:0 0 20px;padding:0;list-style:none;display:grid;gap:8px}
+.wrong-list li{font-size:15px;background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.wrong-list li em{font-style:normal;font-weight:700;color:var(--no);margin-right:6px}
+.hidden{display:none}
+footer{margin-top:22px;text-align:center;font-size:13px;color:var(--muted)}
+@media (max-width:480px){
+  .wrap{padding:18px 14px 48px}
+  .card{padding:20px 16px}
+  h2.q{font-size:19px}
+  .weeks{grid-template-columns:1fr}
+  .bar-row{grid-template-columns:84px 1fr 42px}
+  .hero h1{font-size:24px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">AI 수업 복습 퀴즈<small>1~4주차 · 20문항 · 약 30분</small></div>
+    <div class="score-pill" id="pill" aria-live="polite">0 / 20 정답</div>
+  </header>
+
+  <!-- 시작 화면 -->
+  <section id="start" class="card hero">
+    <h1>지금까지 배운 것, 얼마나 기억하나요?</h1>
+    <p>정답을 고르면 바로 맞았는지와 해설이 나와요. 틀려도 괜찮아요. 해설을 읽는 게 진짜 공부예요.</p>
+    <div class="weeks">
+      <div class="wk" style="--c:var(--w1)"><b>1주차 · 데이터 살펴보기</b><span>class, label, 이미지와 vector</span></div>
+      <div class="wk" style="--c:var(--w2)"><b>2주차 · Tensor와 DataLoader</b><span>dtype, 정규화, batch, shuffle</span></div>
+      <div class="wk" style="--c:var(--w3)"><b>3주차 · 학습의 원리</b><span>예측, loss, gradient, 학습 5단계</span></div>
+      <div class="wk" style="--c:var(--w4)"><b>4주차 · 나만의 신경망</b><span>Linear, ReLU, 설계도, shape</span></div>
+    </div>
+    <ol class="howto">
+      <li>문제를 읽고 보기 4개 중 하나를 누르세요.</li>
+      <li>"결과 맞히기" 문제는 코드를 실행하면 무엇이 나올지 고르는 문제예요.</li>
+      <li>해설을 읽고 "다음 문제"를 누르세요. 키보드 1~4, Enter도 쓸 수 있어요.</li>
+    </ol>
+    <div class="actions" style="justify-content:flex-start"><button class="btn" id="startBtn">시작하기</button></div>
+  </section>
+
+  <!-- 문제 화면 -->
+  <section id="quiz" class="hidden">
+    <div class="progress"><i id="bar"></i></div>
+    <div class="progress-label"><span id="plabel">1번 / 20</span><span id="wlabel"></span></div>
+    <article class="card" id="qcard">
+      <div class="tags"><span class="tag" id="tweek"></span><span class="tag type" id="ttype"></span></div>
+      <h2 class="q" id="qtext"></h2>
+      <pre class="code hidden" id="qcode"></pre>
+      <div class="opts" id="opts" role="group" aria-label="보기"></div>
+      <div class="feedback" id="fb" aria-live="polite"><b id="fbTitle"></b><p id="fbText"></p></div>
+      <div class="actions"><button class="btn" id="nextBtn" disabled>다음 문제</button></div>
+    </article>
+  </section>
+
+  <!-- 결과 화면 -->
+  <section id="result" class="card hidden">
+    <div style="color:var(--muted);font-weight:600">내 점수</div>
+    <div class="big-score" id="bigScore"></div>
+    <div class="msg" id="msg"></div>
+    <div class="bars" id="bars"></div>
+    <div id="wrongWrap">
+      <div style="font-weight:700;margin-bottom:8px">틀린 문제</div>
+      <ul class="wrong-list" id="wrongList"></ul>
+    </div>
+    <div class="actions" style="justify-content:flex-start;flex-wrap:wrap">
+      <button class="btn" id="retryWrong">틀린 문제만 다시 풀기</button>
+      <button class="btn ghost" id="restart">처음부터 다시</button>
+    </div>
+  </section>
+
+  <footer>4주차 다음은 CNN! 이미지를 펼치지 않고 작은 돋보기로 훑어보는 방법을 배워요.</footer>
+</div>
+<script>
+const QUESTIONS = [
+// ---------- 1주차
+{w:1,type:'객관식',q:'손글씨 숫자 데이터(digits)에는 class가 몇 개 있을까요?',
+ opts:['8개','10개','64개','1797개'],a:1,
+ exp:'class는 AI가 구분해야 하는 종류예요. 숫자 0부터 9까지이므로 10개입니다. 1797은 이미지의 개수, 64는 이미지 한 장의 픽셀 개수예요.'},
+{w:1,type:'객관식',q:'label에 대한 설명으로 맞는 것은?',
+ opts:['이미지 한 장의 크기','AI 모델의 이름','각 이미지에 붙어 있는 정답','이미지의 색깔'],a:2,
+ exp:'label은 이미지마다 붙어 있는 정답이에요. 예를 들어 숫자 3을 쓴 이미지의 label은 3입니다. class는 종류의 목록(0~9), label은 그중 이 이미지의 정답이에요.'},
+{w:1,type:'결과 맞히기',q:'이 코드의 결과는?',
+ code:'digits = load_digits()\nprint(digits.images.shape)',
+ opts:['(8, 8)','(1797, 64)','(10, 8, 8)','(1797, 8, 8)'],a:3,
+ exp:'이미지가 1797장 있고, 한 장은 세로 8칸 × 가로 8칸이에요. 그래서 (1797, 8, 8)입니다. (1797, 64)는 digits.data처럼 이미지를 한 줄로 펼쳤을 때의 모양이에요.'},
+{w:1,type:'객관식',q:'8×8 이미지 한 장을 한 줄짜리 vector로 펼치면 숫자가 몇 개일까요?',
+ opts:['16개','64개','8개','88개'],a:1,
+ exp:'8 × 8 = 64. 이미지 한 장은 숫자 64개로 이루어진 vector가 돼요. AI는 이미지를 이렇게 숫자들로 봅니다.'},
+{w:1,type:'결과 맞히기',q:'이 코드의 결과는?',
+ code:'labels = [3, 7, 1, 9]\nprint(labels[0])',
+ opts:['3','7','0','9'],a:0,
+ exp:'파이썬은 번호를 0부터 세요. labels[0]은 첫 번째 값인 3입니다. labels[1]이 7이에요.'},
+// ---------- 2주차
+{w:2,type:'객관식',q:'이미지 픽셀(X)을 Tensor로 바꿀 때 주로 쓰는 dtype은?',
+ opts:['torch.float32','torch.long','str','bool'],a:0,
+ exp:'이미지는 곱하고 나누는 계산에 쓰이니까 소수점이 있는 숫자 float32를 써요. 정답 label(y)은 0~9 같은 번호라서 정수형 long을 써요.'},
+{w:2,type:'결과 맞히기',q:'이 코드의 결과는? (정규화)',
+ code:'X = torch.tensor([0.0, 8.0, 16.0])\nprint(X / 16)',
+ opts:['tensor([ 0.,  8., 16.])','tensor([0.0000, 0.5000, 1.0000])','tensor([16.,  8.,  0.])','tensor([1., 1., 1.])'],a:1,
+ exp:'모든 칸을 16으로 나눠요. 0÷16=0, 8÷16=0.5, 16÷16=1. 픽셀 값 0~16이 0~1 사이로 바뀌는 게 정규화예요.'},
+{w:2,type:'객관식',q:'TensorDataset(X, y)가 하는 일은?',
+ opts:['이미지를 더 선명하게 만든다','모델을 학습시킨다','데이터를 학습용과 시험용으로 나눈다','같은 번호의 이미지와 정답을 짝지어 묶는다'],a:3,
+ exp:'X[0]과 y[0], X[1]과 y[1]처럼 같은 번호끼리 짝을 지어요. 그래서 dataset[0]을 꺼내면 (첫 번째 이미지, 첫 번째 정답)이 함께 나와요.'},
+{w:2,type:'결과 맞히기',q:'이 코드의 결과는?',
+ code:'loader = DataLoader(dataset, batch_size=8, shuffle=True)\nimages_batch, labels_batch = next(iter(loader))\nprint(images_batch.shape)',
+ opts:['torch.Size([1797, 8, 8])','torch.Size([8])','torch.Size([8, 8, 8])','torch.Size([8, 64])'],a:2,
+ exp:'batch_size=8이니까 이미지를 8장씩 꺼내요. 8장 × (8×8) = [8, 8, 8]. 맨 앞 8은 장수, 뒤의 8, 8은 이미지 크기예요. labels_batch는 [8]이에요.'},
+{w:2,type:'객관식',q:'shuffle=True로 설정하면 어떻게 될까요?',
+ opts:['epoch마다 데이터 순서를 새로 섞는다','처음 한 번만 섞고 계속 같은 순서다','데이터 개수가 늘어난다','이미지가 좌우로 뒤집힌다'],a:0,
+ exp:'shuffle=True는 epoch(전체 데이터를 한 바퀴 도는 것)마다 순서를 새로 섞어요. 그래서 1 epoch의 첫 batch와 2 epoch의 첫 batch는 다른 이미지일 수 있어요.'},
+// ---------- 3주차
+{w:3,type:'결과 맞히기',q:'이 코드의 결과는? (모델의 예측)',
+ code:'w = 0.5\nx = torch.tensor([2.0, 4.0])\nprint(w * x)',
+ opts:['tensor([2., 4.])','tensor([2.5, 4.5])','tensor([1., 2.])','tensor([4., 8.])'],a:2,
+ exp:'vector의 모든 칸에 0.5가 곱해져요. 2×0.5=1, 4×0.5=2. 모델의 예측은 이렇게 입력에 w를 곱해서 만들어요.'},
+{w:3,type:'객관식',q:'loss에 대한 설명으로 맞는 것은?',
+ opts:['loss가 클수록 좋은 모델이다','loss가 작을수록 예측이 정답에 가깝다','loss는 데이터의 개수다','loss는 항상 0이다'],a:1,
+ exp:'loss는 오답 점수예요. 예측이 정답과 많이 다를수록 커지고, 정답에 가까울수록 작아져요. 학습의 목표는 loss를 줄이는 것!'},
+{w:3,type:'객관식',q:'w의 gradient가 음수(−)로 나왔어요. loss를 줄이려면 w를 어떻게 해야 할까요?',
+ opts:['w를 키운다','w를 줄인다','w를 0으로 만든다','아무것도 안 한다'],a:0,
+ exp:'w는 gradient의 반대 방향으로 고쳐요. gradient가 음수면 반대인 + 방향, 즉 w를 키워요. 식으로는 w = w − lr × gradient 이고, 음수를 빼면 더하는 것이 돼요.'},
+{w:3,type:'객관식',q:'learning rate(보폭)를 너무 크게 하면 어떤 일이 생길 수 있나요?',
+ opts:['학습이 아주 느려진다','데이터가 사라진다','항상 더 빨리 정답에 도착한다','골짜기를 뛰어넘어 loss가 오히려 커질 수 있다'],a:3,
+ exp:'보폭이 너무 크면 loss 골짜기 바닥을 지나쳐 반대편으로 튕겨 나가요. 3주차 실험에서 lr=0.1일 때 loss가 폭발했죠. 반대로 너무 작으면 학습이 느려요.'},
+{w:3,type:'객관식',q:'학습 5단계의 올바른 순서는?',
+ opts:['예측 → backward → loss → zero_grad → step','zero_grad → 예측 → loss → backward → step','step → backward → loss → 예측 → zero_grad','loss → 예측 → step → backward → zero_grad'],a:1,
+ exp:'지우개(zero_grad) → 예측 → 오답 점수(loss) → 고칠 방향 계산(backward) → 실제로 고치기(step). 이 5단계를 반복하는 게 학습이에요.'},
+// ---------- 4주차
+{w:4,type:'결과 맞히기',q:'사과 심사위원(Linear)의 사과 점수는?',
+ code:'# 특징: [빨간 정도, 노란 정도, 길쭉한 정도]\n# 사과 심사위원의 중요도: [ 2, -1, -2 ]\n# 기본 점수(bias): 0\nfruit = [1, 1, 0]',
+ opts:['3','1','-1','0'],a:1,
+ exp:'특징마다 중요도를 곱해서 더하고, 기본 점수를 더해요. 2×1 + (−1)×1 + (−2)×0 + 0 = 2 − 1 = 1.'},
+{w:4,type:'결과 맞히기',q:'이 코드의 결과는?',
+ code:'relu = nn.ReLU()\nnumbers = torch.tensor([-2.0, 0.0, 3.0])\nprint(relu(numbers))',
+ opts:['tensor([2., 0., 3.])','tensor([-2., 0., 3.])','tensor([0., 0., 3.])','tensor([0., 0., 0.])'],a:2,
+ exp:'ReLU 스위치의 규칙: 음수는 0으로, 양수는 그대로. −2는 0, 0은 0, 3은 그대로 3이에요.'},
+{w:4,type:'객관식',q:'nn.Linear(64, 32)에서 64와 32의 뜻은?',
+ opts:['들어오는 숫자 64개, 나가는 숫자 32개','학습 64번, 시험 32번','batch 64장, epoch 32번','나가는 숫자 64개, 들어오는 숫자 32개'],a:0,
+ exp:'앞 숫자는 받는 개수(입력), 뒤 숫자는 내놓는 개수(출력)예요. 픽셀 64개를 받아서 점수 32개를 내놓는 심사위원 32명이라고 생각하면 돼요.'},
+{w:4,type:'결과 맞히기',q:'이미지 32장을 MyNet에 넣었어요. 결과의 shape은?',
+ code:'# MyNet: Linear(64, 32) → ReLU → Linear(32, 10)\nimages, labels = next(iter(train_loader))   # 32장\nscores = model(images.reshape(-1, 64))\nprint(scores.shape)',
+ opts:['torch.Size([32, 64])','torch.Size([10])','torch.Size([32, 32])','torch.Size([32, 10])'],a:3,
+ exp:'사진 32장마다 숫자 0~9의 점수 10개가 나와요. 그래서 [32, 10]. reshape(-1, 64)의 −1은 "몇 장이든 알아서 맞춰 줘"라는 뜻이라 여기서는 32가 돼요.'},
+{w:4,type:'객관식',q:'loss.backward()와 optimizer.step()의 차이로 맞는 것은?',
+ opts:['둘은 완전히 같은 일을 한다','backward는 고칠 방향을 계산만, step은 실제로 중요도를 고친다','backward는 중요도를 고치고, step은 방향을 계산한다','backward는 데이터를 섞고, step은 다음 batch를 꺼낸다'],a:1,
+ exp:'backward는 내비게이션(어느 방향으로 고칠지 계산), step은 운전자(그 방향으로 실제로 고치기)예요. 그래서 step은 꼭 backward 뒤에 와야 해요.'},
+];
+
+</script>
+<script>
+const WEEK = {1:{name:'1주차',c:'var(--w1)'},2:{name:'2주차',c:'var(--w2)'},3:{name:'3주차',c:'var(--w3)'},4:{name:'4주차',c:'var(--w4)'}};
+const $ = id => document.getElementById(id);
+let order = [], pos = 0, answered = false;
+const result = {};   // question index -> true/false (latest attempt)
+
+function show(id){ ['start','quiz','result'].forEach(s => $(s).classList.toggle('hidden', s!==id)); window.scrollTo({top:0}); }
+function correctCount(){ return Object.values(result).filter(Boolean).length; }
+function updatePill(){ $('pill').textContent = `${correctCount()} / ${QUESTIONS.length} 정답`; }
+
+function begin(list){ order = list; pos = 0; show('quiz'); render(); }
+
+function render(){
+  const qi = order[pos], Q = QUESTIONS[qi];
+  answered = false;
+  document.documentElement.style.setProperty('--accent', WEEK[Q.w].c);
+  $('bar').style.width = (pos / order.length * 100) + '%';
+  $('plabel').textContent = `${pos+1}번 / ${order.length}`;
+  $('wlabel').textContent = `전체 ${qi+1}번 문제`;
+  $('tweek').textContent = WEEK[Q.w].name;
+  $('ttype').textContent = Q.type;
+  $('qtext').textContent = Q.q;
+  const code = $('qcode');
+  if (Q.code){ code.textContent = Q.code; code.classList.remove('hidden'); } else code.classList.add('hidden');
+  const box = $('opts'); box.innerHTML = '';
+  const looksCode = Q.opts.some(o => /tensor|torch|\(|\[/.test(o));
+  Q.opts.forEach((o,i) => {
+    const b = document.createElement('button');
+    b.className = 'opt' + (looksCode ? ' mono' : '');
+    b.innerHTML = `<span class="num">${i+1}</span><span class="txt"></span>`;
+    b.querySelector('.txt').textContent = o;
+    b.addEventListener('click', () => choose(i));
+    box.appendChild(b);
+  });
+  $('fb').className = 'feedback';
+  $('nextBtn').disabled = true;
+  $('nextBtn').textContent = pos === order.length-1 ? '결과 보기' : '다음 문제';
+}
+
+function choose(i){
+  if (answered) return;
+  answered = true;
+  const qi = order[pos], Q = QUESTIONS[qi], ok = i === Q.a;
+  result[qi] = ok;
+  [...$('opts').children].forEach((b,j) => {
+    b.disabled = true;
+    if (j === Q.a) b.classList.add('correct');
+    else if (j === i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+  $('fb').className = 'feedback show ' + (ok ? 'ok' : 'no');
+  $('fbTitle').textContent = ok ? '정답이에요' : `아쉬워요. 정답은 ${Q.a+1}번이에요`;
+  $('fbText').textContent = Q.exp;
+  $('nextBtn').disabled = false;
+  $('nextBtn').focus({preventScroll:true});
+  updatePill();
+}
+
+function next(){
+  if (!answered) return;
+  if (pos < order.length-1){ pos++; render(); }
+  else finish();
+}
+
+function finish(){
+  const total = QUESTIONS.length, score = correctCount();
+  $('bigScore').innerHTML = `${score}<small> / ${total}</small>`;
+  $('msg').textContent = score === total ? '완벽해요. 4주 동안 배운 걸 모두 기억하고 있어요.'
+    : score >= 16 ? '아주 잘했어요. 틀린 문제만 다시 풀어 보면 완벽해져요.'
+    : score >= 11 ? '좋아요. 틀린 문제의 해설을 다시 읽어 봐요.'
+    : '괜찮아요. 해설을 읽으면서 한 번 더 풀어 보면 훨씬 좋아질 거예요.';
+  const bars = $('bars'); bars.innerHTML = '';
+  [1,2,3,4].forEach(w => {
+    const idx = QUESTIONS.map((q,i)=>q.w===w?i:-1).filter(i=>i>=0);
+    const c = idx.filter(i=>result[i]).length;
+    const row = document.createElement('div'); row.className='bar-row';
+    row.innerHTML = `<span>${WEEK[w].name}</span><span class="bar"><i style="width:${c/idx.length*100}%;background:${WEEK[w].c}"></i></span><span style="text-align:right;font-weight:700">${c}/${idx.length}</span>`;
+    bars.appendChild(row);
+  });
+  const wrong = QUESTIONS.map((q,i)=>i).filter(i=>!result[i]);
+  const list = $('wrongList'); list.innerHTML = '';
+  wrong.forEach(i => { const li=document.createElement('li'); li.innerHTML = `<em>${i+1}번</em>`; li.append(`${WEEK[QUESTIONS[i].w].name} · ${QUESTIONS[i].q}`); list.appendChild(li); });
+  $('wrongWrap').classList.toggle('hidden', wrong.length===0);
+  $('retryWrong').classList.toggle('hidden', wrong.length===0);
+  $('bar').style.width='100%';
+  show('result');
+}
+
+$('startBtn').onclick = () => begin(QUESTIONS.map((_,i)=>i));
+$('nextBtn').onclick = next;
+$('retryWrong').onclick = () => begin(QUESTIONS.map((_,i)=>i).filter(i=>!result[i]));
+$('restart').onclick = () => { for (const k in result) delete result[k]; updatePill(); begin(QUESTIONS.map((_,i)=>i)); };
+document.addEventListener('keydown', e => {
+  if ($('quiz').classList.contains('hidden')) return;
+  if (['1','2','3','4'].includes(e.key) && !answered) choose(+e.key-1);
+  else if (e.key === 'Enter' && answered){ e.preventDefault(); next(); }
+});
+</script>
+</body>
+</html>
