@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 수업 1~4주차 복습 퀴즈</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4ef; --surface:#ffffff; --ink:#1f2328; --muted:#5f6670; --line:#e4e0d6;
+  --p:#526683; --p-dark:#37465e; --p-mid:#95a2b6; --p-light:#e8ebf0; --acc:#b8692a; --acc-light:#f8efe6;
+  --w1:#c3cad5; --w2:#a4afbf; --w3:#7e8ca2; --w4:#526683;
+  --ok:#3d7458; --ok-bg:#ebf2ed; --no:#a14a42; --no-bg:#f7ecea;
+  --code-bg:#1e2430; --code-ink:#e8edf5;
+  --r:16px;
+  --font-body:'Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:28px 20px 64px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand{font-weight:800;font-size:18px;letter-spacing:-0.01em}
+.brand small{display:block;font-weight:500;font-size:13px;color:var(--muted)}
+.score-pill{font-weight:700;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;white-space:nowrap}
+.progress{height:8px;background:#e9e5db;border-radius:99px;overflow:hidden;margin-bottom:8px}
+.progress > i{display:block;height:100%;width:0;background:var(--accent,var(--p));border-radius:99px;transition:width .35s ease}
+.progress-label{font-size:13px;color:var(--muted);margin-bottom:18px;display:flex;justify-content:space-between}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 8px 24px rgba(60,50,20,.05)}
+.tags{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.tag{font-size:13px;font-weight:700;padding:3px 10px;border-radius:99px;color:#fff;background:var(--accent)}
+.tag.type{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+h2.q{font-size:21px;line-height:1.45;margin:0 0 16px;font-weight:700;letter-spacing:-0.01em}
+pre.code{background:var(--code-bg);color:var(--code-ink);font-family:var(--font-mono);font-size:14.5px;line-height:1.65;border-radius:12px;padding:16px 18px;margin:0 0 18px;overflow-x:auto;white-space:pre}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:inherit;background:#fbfaf7;border:2px solid var(--line);border-radius:12px;padding:13px 16px;cursor:pointer;transition:border-color .15s,background .15s,transform .05s}
+.opt:hover:not(:disabled){border-color:var(--accent);background:#fff}
+.opt:active:not(:disabled){transform:scale(.995)}
+.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.opt .num{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;background:#ece8de;color:var(--muted)}
+.opt .txt{flex:1;min-width:0;overflow-wrap:anywhere}
+.opt.mono .txt{font-family:var(--font-mono);font-size:15px}
+.opt:disabled{cursor:default}
+.opt.correct{border-color:var(--ok);background:var(--ok-bg)}
+.opt.correct .num{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--no);background:var(--no-bg)}
+.opt.wrong .num{background:var(--no);color:#fff}
+.opt.dim{opacity:.55}
+.feedback{margin-top:18px;border-radius:12px;padding:16px 18px;display:none}
+.feedback.show{display:block;animation:pop .25s ease}
+.feedback.ok{background:var(--ok-bg);border:1px solid #cfe0d4}
+.feedback.no{background:var(--no-bg);border:1px solid #ebd0cc}
+.feedback b{display:block;font-size:18px;margin-bottom:4px}
+.feedback.ok b{color:var(--ok)} .feedback.no b{color:var(--no)}
+.feedback p{margin:0;font-size:16px}
+@keyframes pop{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.btn{font:inherit;font-weight:700;font-size:16px;border:0;border-radius:12px;padding:12px 22px;cursor:pointer;background:var(--ink);color:#fff}
+.btn:disabled{opacity:.3;cursor:default}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn:focus-visible{outline:3px solid var(--accent,var(--p));outline-offset:2px}
+/* start + result */
+.hero h1{font-size:28px;line-height:1.3;margin:0 0 8px;letter-spacing:-0.02em}
+.hero p{color:var(--muted);margin:0 0 20px}
+.weeks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 0 22px}
+.wk{border-radius:12px;padding:12px 14px;background:#fbfaf7;border:1px solid var(--line);border-left:5px solid var(--c)}
+.wk b{display:block;font-size:15px}
+.wk span{font-size:14px;color:var(--muted)}
+.howto{font-size:15px;color:var(--muted);background:#fbfaf7;border-radius:12px;padding:14px 16px;margin:0 0 22px}
+.howto li{margin:2px 0}
+.big-score{font-size:56px;font-weight:800;letter-spacing:-0.03em;line-height:1;margin:6px 0 4px}
+.big-score small{font-size:22px;color:var(--muted);font-weight:600}
+.msg{font-size:18px;font-weight:600;margin:6px 0 20px}
+.bars{display:grid;gap:12px;margin-bottom:22px}
+.bar-row{display:grid;grid-template-columns:110px 1fr 48px;align-items:center;gap:10px;font-size:15px}
+.bar{height:12px;background:#ece8de;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px}
+.wrong-list{margin:0 0 20px;padding:0;list-style:none;display:grid;gap:8px}
+.wrong-list li{font-size:15px;background:#fbfaf7;border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.wrong-list li em{font-style:normal;font-weight:700;color:var(--no);margin-right:6px}
+.fig{margin:0 0 18px;padding:14px;background:#fbfaf7;border:1px solid var(--line);border-radius:12px;text-align:center;overflow-x:auto}
+.fig svg{width:100%;height:auto;display:block;margin:0 auto}
+.fig svg text{font-family:var(--font-body)}
+table.ana{width:100%;border-collapse:collapse;font-size:16px;text-align:left}
+table.ana th{font-size:14px;color:var(--muted);font-weight:700;padding:6px 10px;border-bottom:2px solid var(--line)}
+table.ana td{padding:9px 10px;border-bottom:1px solid var(--line)}
+table.ana code{font-family:var(--font-mono);font-size:14px}
+table.ana tr.q td{background:var(--acc-light);font-weight:800;color:var(--acc)}
+.hint-btn{font:inherit;font-size:14px;font-weight:700;color:var(--accent);background:transparent;border:1.5px dashed var(--accent);border-radius:99px;padding:5px 14px;cursor:pointer;margin:0 0 14px}
+.hint{font-size:15px;background:var(--acc-light);border:1px solid #ead8c6;border-radius:10px;padding:10px 14px;margin:0 0 14px}
+.hidden{display:none}
+footer{margin-top:22px;text-align:center;font-size:13px;color:var(--muted)}
+@media (max-width:480px){
+  .wrap{padding:18px 14px 48px}
+  .card{padding:20px 16px}
+  .fig{padding:6px;margin-left:-6px;margin-right:-6px}
+  h2.q{font-size:19px}
+  .weeks{grid-template-columns:1fr}
+  .bar-row{grid-template-columns:84px 1fr 42px}
+  .hero h1{font-size:24px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">AI 수업 복습 퀴즈<small>1~4주차 · 20문항 · 약 30분</small></div>
+    <div class="score-pill" id="pill" aria-live="polite">0 / 20 정답</div>
+  </header>
+
+  <!-- 시작 화면 -->
+  <section id="start" class="card hero">
+    <h1>외운 것 말고, 이해한 것을 확인해 봐요</h1>
+    <p>그림과 그래프를 보고 "왜 그럴까?"를 생각하는 문제예요. 바로 답이 떠오르지 않아도 괜찮아요. 천천히 생각해 보고, 막히면 힌트를 눌러 보세요.</p>
+    <div class="weeks">
+      <div class="wk" style="--c:var(--w1)"><b>1주차 · 데이터 살펴보기</b><span>이미지는 숫자다, class와 label</span></div>
+      <div class="wk" style="--c:var(--w2)"><b>2주차 · Tensor와 DataLoader</b><span>정규화, batch, 짝 맞추기, 섞기</span></div>
+      <div class="wk" style="--c:var(--w3)"><b>3주차 · 학습의 원리</b><span>학습 흐름, loss 골짜기, 보폭</span></div>
+      <div class="wk" style="--c:var(--w4)"><b>4주차 · 나만의 신경망</b><span>신경망 구조, 결과 그래프 해석</span></div>
+    </div>
+    <ol class="howto">
+      <li>문제를 읽고 보기 4개 중 하나를 누르세요.</li>
+      <li>먼저 그림을 잘 살펴보세요. 막히면 "힌트 보기"를 눌러도 돼요.</li>
+      <li>해설을 읽고 "다음 문제"를 누르세요. 키보드 1~4, Enter도 쓸 수 있어요.</li>
+    </ol>
+    <div class="actions" style="justify-content:flex-start"><button class="btn" id="startBtn">시작하기</button></div>
+  </section>
+
+  <!-- 문제 화면 -->
+  <section id="quiz" class="hidden">
+    <div class="progress"><i id="bar"></i></div>
+    <div class="progress-label"><span id="plabel">1번 / 20</span><span id="wlabel"></span></div>
+    <article class="card" id="qcard">
+      <div class="tags"><span class="tag" id="tweek"></span><span class="tag type" id="ttype"></span></div>
+      <h2 class="q" id="qtext"></h2>
+      <div class="fig hidden" id="qfig"></div>
+      <pre class="code hidden" id="qcode"></pre>
+      <button class="hint-btn" id="hintBtn" type="button">힌트 보기</button>
+      <div class="hint hidden" id="hintBox"></div>
+      <div class="opts" id="opts" role="group" aria-label="보기"></div>
+      <div class="feedback" id="fb" aria-live="polite"><b id="fbTitle"></b><p id="fbText"></p></div>
+      <div class="actions"><button class="btn" id="nextBtn" disabled>다음 문제</button></div>
+    </article>
+  </section>
+
+  <!-- 결과 화면 -->
+  <section id="result" class="card hidden">
+    <div style="color:var(--muted);font-weight:600">내 점수</div>
+    <div class="big-score" id="bigScore"></div>
+    <div class="msg" id="msg"></div>
+    <div class="bars" id="bars"></div>
+    <div id="wrongWrap">
+      <div style="font-weight:700;margin-bottom:8px">틀린 문제</div>
+      <ul class="wrong-list" id="wrongList"></ul>
+    </div>
+    <div class="actions" style="justify-content:flex-start;flex-wrap:wrap">
+      <button class="btn" id="retryWrong">틀린 문제만 다시 풀기</button>
+      <button class="btn ghost" id="restart">처음부터 다시</button>
+    </div>
+  </section>
+
+  <footer>4주차 다음은 CNN! 이미지를 펼치지 않고 작은 돋보기로 훑어보는 방법을 배워요.</footer>
+</div>
+<script>
+// =====================================================================
+// 그림 그리는 도구 (문제에서 fig: F.xxx(...) 로 사용)
+// =====================================================================
+const C = {ink:'#1f2328', muted:'#5f6670', line:'#d9d4c7', p:'#526683', pDark:'#37465e', pMid:'#95a2b6', gray:'#a9aeb6', acc:'#b8692a', red:'#a14a42', soft:'#eef0f4'};
+const tint = k => `hsl(217,20%,${k}%)`;
+const svg = (w,h,inner,label) => `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${label||'문제 그림'}" style="max-width:${w}px">${inner}</svg>`;
+const T = (x,y,s,o={}) => `<text x="${x}" y="${y}" font-size="${o.size||15}" fill="${o.fill||C.ink}" text-anchor="${o.anchor||'middle'}" font-weight="${o.bold?700:500}" dominant-baseline="middle">${s}</text>`;
+const shade = v => { const g = Math.round(255 - v/16*225); return `rgb(${g},${g},${g})`; };
+const arrowDef = (id,col) => `<defs><marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${col}"/></marker></defs>`;
+
+const F = {
+  // 8x8 픽셀 그림 (칸 안에 숫자 표시)
+  grid(img, o={}){
+    const s = o.cell||34, pad = 4, n = 8, W = s*n+pad*2;
+    let g = '';
+    img.forEach((row,r) => row.forEach((v,c) => {
+      g += `<rect x="${pad+c*s}" y="${pad+r*s}" width="${s}" height="${s}" fill="${shade(v)}" stroke="#cfcac0" stroke-width="1"/>`;
+      if (o.numbers !== false) g += T(pad+c*s+s/2, pad+r*s+s/2+1, v, {size:13, fill: v>8?'#fff':C.ink});
+    }));
+    if (o.box){ const [r0,r1,c0,c1] = o.box;
+      g += `<rect x="${pad+c0*s-2}" y="${pad+r0*s-2}" width="${(c1-c0+1)*s+4}" height="${(r1-r0+1)*s+4}" fill="none" stroke="${C.acc}" stroke-width="3.5" stroke-dasharray="7 5" rx="4"/>`; }
+    return svg(W, W, g, '8×8 픽셀 그림');
+  },
+
+  // 학습의 큰 흐름 (4단계 순환)
+  flow(blank){
+    const box = (x,y,t1,t2,col,isBlank) => `<rect x="${x}" y="${y}" width="200" height="74" rx="14" fill="${isBlank?'#fff':C.soft}" stroke="${isBlank?C.acc:col}" stroke-width="${isBlank?3:2}" ${isBlank?'stroke-dasharray="8 6"':''}/>`
+      + (isBlank ? T(x+100,y+37,'( 가 )',{size:22,bold:true,fill:C.acc}) : T(x+100,y+27,t1,{size:17,bold:true}) + T(x+100,y+51,t2,{size:14,fill:C.muted}));
+    const steps = [['① 데이터 준비','이미지 + 정답(label)'],['② 모델이 예측','"이건 7 같아요"'],['③','?'],['④ 모델 고치기','틀린 만큼 조금씩']];
+    const pos = [[20,20],[340,20],[340,176],[20,176]];
+    let g = arrowDef('fa', C.muted);
+    steps.forEach((s,i)=> g += box(pos[i][0],pos[i][1],s[0],s[1],C.p, i===blank));
+    const A = (x1,y1,x2,y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${C.muted}" stroke-width="2.5" marker-end="url(#fa)"/>`;
+    g += A(224,57,334,57) + A(440,98,440,170) + A(336,213,226,213) + A(120,170,120,100);
+    g += T(280,135,'반복',{size:16,bold:true,fill:C.muted});
+    return svg(560, 270, g, '학습 흐름도');
+  },
+
+  // 8x8 → 한 줄(64칸)로 펼치기
+  flatten(){
+    const cols = [28,36,44,52,60,68,74,80].map(tint);
+    let g = arrowDef('fl', C.muted);
+    for (let r=0;r<8;r++) for (let c=0;c<8;c++) g += `<rect x="${20+c*16}" y="${20+r*16}" width="16" height="16" fill="${cols[r]}" opacity="${0.55+c*0.06}" stroke="#fff"/>`;
+    g += T(84,160,'8 × 8',{size:15,bold:true});
+    g += `<line x1="160" y1="84" x2="210" y2="84" stroke="${C.muted}" stroke-width="2.5" marker-end="url(#fl)"/>`;
+    for (let i=0;i<64;i++){ const r=Math.floor(i/8), c=i%8; const x = 222+ (i%32)*10.5, y = i<32 ? 60 : 100;
+      g += `<rect x="${x}" y="${y}" width="10.5" height="22" fill="${cols[r]}" opacity="${0.55+c*0.06}" stroke="#fff" stroke-width=".8"/>`; }
+    g += T(390,46,'한 줄로 펼침 (공간이 좁아 두 줄로 그렸어요)',{size:13,fill:C.muted});
+    g += T(390,145,'칸 64개',{size:15,bold:true});
+    return svg(570, 175, g, '이미지를 한 줄로 펼치는 그림');
+  },
+
+  // 정규화 전후
+  norm(){
+    const vals = [0,4,8,12,16]; let g = arrowDef('nm', C.muted);
+    vals.forEach((v,i)=>{ g += `<rect x="${110+i*72}" y="18" width="62" height="54" rx="6" fill="${shade(v)}" stroke="#cfcac0"/>` + T(141+i*72,46,v,{size:17,bold:true,fill:v>8?'#fff':C.ink});
+      g += `<rect x="${110+i*72}" y="122" width="62" height="54" rx="6" fill="${shade(v)}" stroke="#cfcac0"/>` + T(141+i*72,150,(v/16).toString(),{size:17,bold:true,fill:v>8?'#fff':C.ink}); });
+    g += T(50,46,'나누기 전',{size:15,bold:true}) + T(50,150,'나눈 후',{size:15,bold:true});
+    g += `<line x1="285" y1="78" x2="285" y2="114" stroke="${C.muted}" stroke-width="2.5" marker-end="url(#nm)"/>` + T(330,96,'÷ 16',{size:16,bold:true,fill:C.acc});
+    return svg(480, 190, g, '정규화 전후 비교');
+  },
+
+  // 1500장을 32장씩 묶기
+  batches(){
+    let g = '';
+    for (let i=0;i<9;i++) g += `<rect x="${16+i*44}" y="40" width="38" height="60" rx="5" fill="${C.p}"/>` + T(35+i*44,70,'32',{size:14,bold:true,fill:'#fff'});
+    g += T(430,70,'· · ·',{size:22,bold:true,fill:C.muted});
+    g += `<rect x="470" y="40" width="38" height="60" rx="5" fill="#fff" stroke="${C.acc}" stroke-width="2.5" stroke-dasharray="6 4"/>` + T(489,70,'?',{size:18,bold:true,fill:C.acc});
+    g += T(262,20,'학습 데이터 1500장을 32장씩 묶으면…',{size:15,bold:true});
+    g += T(489,118,'마지막 묶음',{size:12,fill:C.muted});
+    return svg(524, 132, g, '1500장을 32장씩 묶는 그림');
+  },
+
+  // 이미지와 정답의 짝
+  pairs(){
+    const img = ['3','7','1','9'], lab = ['3','7','1','9'], shuf = ['7','9','3','1'];
+    let g = '';
+    const card = (x,y,t,isImg) => isImg
+      ? `<rect x="${x}" y="${y}" width="46" height="46" rx="6" fill="#2b2f36"/>` + T(x+23,y+24,t,{size:26,bold:true,fill:'#fff'})
+      : `<rect x="${x}" y="${y}" width="46" height="34" rx="17" fill="${C.soft}" stroke="${C.p}" stroke-width="2"/>` + T(x+23,y+18,t,{size:16,bold:true,fill:C.p});
+    const block = (ox, title, imgs) => {
+      let s = T(ox+118, 16, title, {size:15, bold:true});
+      imgs.forEach((t,i)=>{ const x = ox+10+i*58; s += card(x,34,t,true) + card(x,122,lab[i],false);
+        const ok = t===lab[i]; s += `<line x1="${x+23}" y1="82" x2="${x+23}" y2="120" stroke="${ok?C.p:C.red}" stroke-width="3"/>`;
+        if(!ok) s += T(x+23,101,'✕',{size:15,bold:true,fill:C.red}); });
+      return s; };
+    g += block(0,'처음 (X와 y가 짝)',img) + block(282,'X만 섞은 뒤',shuf);
+    g += T(-2,57,'X',{size:13,bold:true,fill:C.muted,anchor:'start'}) + T(-2,139,'y',{size:13,bold:true,fill:C.muted,anchor:'start'});
+    return svg(536, 168, g, '이미지와 정답 짝 그림');
+  },
+
+  // 정렬된 순서 vs 섞은 순서
+  sorted(){
+    const cols = [22,27,32,37,42,47,52,57,62,66].map(tint);
+    const a = []; for (let d=0; d<10; d++) for (let k=0;k<4;k++) a.push(d);
+    const b = [3,8,0,5,9,1,6,2,7,4, 1,4,9,0,2,8,5,3,6,7, 6,0,3,7,1,9,4,8,2,5, 8,2,5,1,7,3,0,9,4,6];
+    let g = '';
+    const row = (arr, y, title) => { let s = T(8,y-14,title,{size:14,bold:true,anchor:'start'});
+      arr.forEach((d,i)=>{ s += `<rect x="${8+i*13}" y="${y}" width="12" height="26" rx="2" fill="${cols[d]}"/>` + T(14+i*13,y+14,d,{size:10,bold:true,fill:'#fff'}); });
+      for (let k=0;k<5;k++) s += `<rect x="${7+k*104}" y="${y-3}" width="103" height="32" rx="5" fill="none" stroke="${C.ink}" stroke-width="1.5"/>`;
+      return s; };
+    g += row(a, 32, '위: 숫자 순서대로 (섞지 않음)') + row(b, 112, '아래: shuffle=True');
+    g += T(270,160,'검은 테두리 하나 = batch 하나',{size:13,fill:C.muted});
+    return svg(540, 172, g, '정렬된 데이터와 섞인 데이터');
+  },
+
+  // 선 그래프 (여러 줄)
+  lines(series, o){
+    const W=540, H=300, L=56, R=20, Tp=20, B=50, pw=W-L-R, ph=H-Tp-B;
+    const n = series[0].ys.length, ymax = o.ymax;
+    const X = i => L + (n===1?0:i/(n-1))*pw, Y = v => Tp + ph - v/ymax*ph;
+    let g = `<defs><clipPath id="clip"><rect x="${L-2}" y="${Tp-2}" width="${pw+8}" height="${ph+6}"/></clipPath></defs>`;
+    o.yticks.forEach(t => { g += `<line x1="${L}" x2="${W-R}" y1="${Y(t)}" y2="${Y(t)}" stroke="#ece8de"/>` + T(L-8,Y(t),t,{size:12,fill:C.muted,anchor:'end'}); });
+    g += `<line x1="${L}" x2="${L}" y1="${Tp}" y2="${Tp+ph}" stroke="${C.muted}"/><line x1="${L}" x2="${W-R}" y1="${Tp+ph}" y2="${Tp+ph}" stroke="${C.muted}"/>`;
+    o.xticks.forEach(i => g += T(X(i), Tp+ph+16, o.xlabelOf ? o.xlabelOf(i) : i+1, {size:12,fill:C.muted}));
+    g += T(L+pw/2, H-10, o.xlabel, {size:13,fill:C.muted}) + T(14, Tp+ph/2, o.ylabel, {size:13,fill:C.muted});
+    series.forEach(s => {
+      const pts = s.ys.map((v,i)=>`${X(i)},${Y(v)}`).join(' ');
+      g += `<polyline points="${pts}" fill="none" stroke="${s.c}" stroke-width="3" clip-path="url(#clip)" stroke-linejoin="round"/>`;
+      if (o.dots) s.ys.forEach((v,i)=> g += `<circle cx="${X(i)}" cy="${Y(v)}" r="4" fill="${s.c}"/>`);
+      if (s.tag) g += `<circle cx="${s.tag[0]}" cy="${s.tag[1]}" r="14" fill="${s.c}"/>` + T(s.tag[0],s.tag[1]+1,s.name,{size:15,bold:true,fill:'#fff'});
+    });
+    if (o.extra) g += o.extra(X,Y);
+    return svg(W, H, g, o.label||'선 그래프');
+  },
+
+  // loss 골짜기
+  valley(){
+    const W=540,H=290,L=56,R=20,Tp=24,B=46,pw=W-L-R,ph=H-Tp-B, w0=-1,w1=5, ymax=100;
+    const X = w => L+(w-w0)/(w1-w0)*pw, Y = v => Tp+ph-Math.min(v,ymax)/ymax*ph, f = w => 11*(w-2)**2;
+    let pts=[]; for(let w=-1; w<=5.001; w+=0.05) pts.push(`${X(w)},${Y(f(w))}`);
+    let g = `<line x1="${L}" x2="${W-R}" y1="${Tp+ph}" y2="${Tp+ph}" stroke="${C.muted}"/><line x1="${L}" x2="${L}" y1="${Tp}" y2="${Tp+ph}" stroke="${C.muted}"/>`;
+    [-1,0,1,2,3,4,5].forEach(w => g += T(X(w),Tp+ph+16,w,{size:12,fill:C.muted}));
+    [0,25,50,75,100].forEach(v => g += T(L-8,Y(v),v,{size:12,fill:C.muted,anchor:'end'}));
+    g += `<polyline points="${pts.join(' ')}" fill="none" stroke="${C.p}" stroke-width="3"/>`;
+    g += `<circle cx="${X(0.5)}" cy="${Y(f(0.5))-11}" r="11" fill="${C.acc}"/>` + T(X(0.5)+18,Y(f(0.5))-14,'← 지금 여기 (w = 0.5)',{size:14,bold:true,fill:C.acc,anchor:'start'});
+    g += `<circle cx="${X(2)}" cy="${Y(0)}" r="6" fill="${C.pDark}"/>` + T(X(2),Y(0)-18,'바닥',{size:14,bold:true,fill:C.pDark});
+    g += T(L+pw/2,H-8,'w (모델이 곱하는 숫자)',{size:13,fill:C.muted}) + T(16,Tp+ph/2,'loss',{size:13,fill:C.muted});
+    return svg(W,H,g,'loss 골짜기 그래프');
+  },
+
+  // 신경망 구조
+  net(){
+    let g = '';
+    const col = (x, n, show, color, label, sub, tags) => {
+      const gap = 230/(show-1); let s='';
+      for (let i=0;i<show;i++){ const y = 30+i*gap;
+        if (tags) s += `<circle cx="${x}" cy="${y}" r="11" fill="${color}"/>` + T(x,y+1,tags[i],{size:11,bold:true,fill:'#fff'});
+        else if (i===Math.floor(show/2)) s += T(x,y,'⋮',{size:20,bold:true,fill:C.muted});
+        else s += `<circle cx="${x}" cy="${y}" r="11" fill="${color}"/>`; }
+      s += T(x,290,label,{size:16,bold:true}) + T(x,310,sub,{size:12,fill:C.muted});
+      return s; };
+    const ys = (show) => Array.from({length:show},(_,i)=>30+i*230/(show-1));
+    ys(7).forEach((a,i)=>{ if(i!==3) ys(7).forEach((b,j)=>{ if(j!==3) g += `<line x1="100" y1="${a}" x2="270" y2="${b}" stroke="#e2ddd2"/>`; }); });
+    ys(7).forEach((a,i)=>{ if(i!==3) ys(10).forEach(b=> g += `<line x1="270" y1="${a}" x2="440" y2="${b}" stroke="#e2ddd2"/>`); });
+    g += col(100,64,7,C.pMid,'입력 64개','픽셀') + col(270,32,7,C.p,'중간 32개','Linear(64, 32) + ReLU') + col(440,10,10,C.pDark,'출력 10개','Linear(32, 10)',['0','1','2','3','4','5','6','7','8','9']);
+    g += T(500,145,'숫자별',{size:12,fill:C.muted,anchor:'start'})+T(500,162,'점수',{size:12,fill:C.muted,anchor:'start'});
+    return svg(550, 320, g, 'MyNet 신경망 구조');
+  },
+
+  // 이미지 + 숫자별 확신 막대
+  probs(img, p){
+    let g = '';
+    const s = 20; img.forEach((row,r)=>row.forEach((v,c)=> g += `<rect x="${10+c*s}" y="${40+r*s}" width="${s}" height="${s}" fill="${shade(v)}"/>`));
+    g += T(90,22,'모델에게 보여 준 이미지',{size:13,bold:true});
+    const L=230, base=220, bw=26, top=40;
+    [0,0.25,0.5].forEach(t => g += `<line x1="${L-6}" x2="${L+10*31}" y1="${base-t/0.5*(base-top)}" y2="${base-t/0.5*(base-top)}" stroke="#ece8de"/>` + T(L-10,base-t/0.5*(base-top),Math.round(t*100)+'%',{size:11,fill:C.muted,anchor:'end'}));
+    p.forEach((v,i)=>{ const h = v/0.5*(base-top), x = L+i*31;
+      g += `<rect x="${x}" y="${base-h}" width="${bw}" height="${h}" rx="3" fill="${v>0.3?C.p:'#d3d7de'}"/>` + T(x+bw/2,base+14,i,{size:13,bold:true});
+      if (v>0.3) g += T(x+bw/2,base-h-12,Math.round(v*100)+'%',{size:13,bold:true,fill:C.p}); });
+    g += T(L+155,22,'숫자별 확신 정도',{size:13,bold:true});
+    return svg(550, 245, g, '숫자별 확신 막대그래프');
+  },
+
+  // 중간 칸 개수 실험 (가로 막대)
+  hbars(){
+    const d = [['중간 4개',84.5],['중간 32개',94.9],['중간 128개',94.9]];
+    let g = T(270,16,'시험 정확도 (%)',{size:14,bold:true});
+    const X = v => 120 + (v-50)/50*380;
+    [50,60,70,80,90,100].forEach(t => g += `<line x1="${X(t)}" x2="${X(t)}" y1="32" y2="168" stroke="#ece8de"/>` + T(X(t),182,t,{size:12,fill:C.muted}));
+    d.forEach(([n,v],i)=>{ const y = 42+i*42; g += T(110,y+14,n,{size:14,bold:true,anchor:'end'}) + `<rect x="${X(50)}" y="${y}" width="${X(v)-X(50)}" height="28" rx="5" fill="${C.p}" opacity="${0.6+i*0.2}"/>` + T(X(v)-8,y+15,v+'%',{size:14,bold:true,fill:'#fff',anchor:'end'}); });
+    return svg(540, 192, g, '중간 칸 개수 실험 결과');
+  },
+
+  // 펼치면 위·아래 이웃이 멀어진다
+  neighbors(){
+    let g = ''; const s = 22;
+    for (let r=0;r<8;r++) for (let c=0;c<8;c++){
+      const k = r*8+c, hl = k===19 ? C.p : k===27 ? C.acc : null;
+      g += `<rect x="${10+c*s}" y="${30+r*s}" width="${s}" height="${s}" fill="${hl||'#f1eee6'}" stroke="#d6d0c4"/>`; }
+    g += T(98,14,'8×8 이미지',{size:13,bold:true});
+    g += T(10+3*s+s/2,30+2*s+s/2+1,'A',{size:12,bold:true,fill:'#fff'}) + T(10+3*s+s/2,30+3*s+s/2+1,'B',{size:12,bold:true,fill:'#fff'});
+    g += T(98,222,'A 바로 아래가 B',{size:13,fill:C.muted});
+    const ox = 214; g += T(ox+160,62,'한 줄로 펼친 뒤 (17번째 ~ 32번째 칸)',{size:13,bold:true});
+    for (let i=16;i<32;i++){ const x = ox+(i-16)*20, hl = i===19 ? C.p : i===27 ? C.acc : null;
+      g += `<rect x="${x}" y="80" width="20" height="30" fill="${hl||'#f1eee6'}" stroke="#d6d0c4"/>`;
+      if (i===19) g += T(x+10,96,'A',{size:12,bold:true,fill:'#fff'}); if (i===27) g += T(x+10,96,'B',{size:12,bold:true,fill:'#fff'}); }
+    const ax = ox+3*20+10, bx = ox+11*20+10;
+    g += `<path d="M${ax},116 Q${(ax+bx)/2},156 ${bx},116" fill="none" stroke="${C.ink}" stroke-width="2"/>` + T((ax+bx)/2,160,'? 칸 떨어짐',{size:14,bold:true,fill:C.ink});
+    return svg(540, 232, g, '펼치면 이웃 칸이 멀어지는 그림');
+  },
+
+  // 시험 공부 비유 표 (HTML)
+  analogy(){
+    const rows = [['optimizer.zero_grad()','지난번 메모 지우기'],['예측','문제 풀기'],['loss 계산','채점하기'],['loss.backward()','?'],['optimizer.step()','공부 방법 실제로 바꾸기']];
+    return `<table class="ana"><thead><tr><th>학습 단계</th><th>시험 공부에 비유하면</th></tr></thead><tbody>${rows.map(r=>`<tr${r[1]==='?'?' class="q"':''}><td><code>${r[0]}</code></td><td>${r[1]}</td></tr>`).join('')}</tbody></table>`;
+  },
+};
+
+// 실제 수업 데이터
+const IMG0 = [[0,0,5,13,9,1,0,0],[0,0,13,15,10,15,5,0],[0,3,15,2,0,11,8,0],[0,4,12,0,0,8,8,0],[0,5,8,0,0,9,8,0],[0,4,11,0,1,12,7,0],[0,2,14,5,10,12,0,0],[0,0,6,13,10,0,0,0]];
+const IMG9 = [[0,0,2,10,16,11,1,0],[0,0,13,13,10,16,8,0],[0,4,14,1,8,14,1,0],[0,4,15,12,15,8,0,0],[0,0,6,7,14,5,0,0],[0,1,2,0,12,5,0,0],[0,8,15,6,13,4,0,0],[0,0,5,11,16,3,0,0]];
+const P9 = [0.002,0.026,0.004,0.04,0,0.075,0,0.01,0.466,0.376];
+const LR_SMALL = [24.75,23.673,22.643,21.657,20.715,19.814,18.951,18.127,17.338,16.583,15.862,15.172,14.511,13.88,13.276,12.698,12.146,11.617,11.112,10.628];
+const LR_GOOD  = [24.75,0.248,0.002,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+const LR_BIG   = [24.75,35.6,51.3,73.9,106.4,153.2,220.7,317.8,457.6,658.9,948.9,1366.4,1967.5,2833.3,4079.9,5875.1,8460.1,12182.5,17542.9,25261.7];
+const LOSS4 = [2.188,1.745,1.14,0.74,0.528,0.412,0.337,0.289,0.252,0.227];
+const lrFig = () => F.lines([{ys:LR_SMALL,c:C.gray,name:'A',tag:[520,188]},{ys:LR_GOOD,c:C.p,name:'B',tag:[110,226]},{ys:LR_BIG,c:C.red,name:'C',tag:[138,60]}],
+  {ymax:60, yticks:[0,20,40,60], xticks:[0,4,9,14,19], xlabel:'학습 횟수 (step)', ylabel:'loss', label:'보폭별 loss 그래프',
+   extra:(X,Y)=>T(176,32,'↑ 그래프 밖으로 계속 커짐',{size:13,bold:true,fill:C.red,anchor:'start'})});
+
+// =====================================================================
+// 문제 (q 문제, fig 그림, opts 보기, a 정답 번호(0부터), hint 힌트, exp 해설)
+// =====================================================================
+const QUESTIONS = [
+// ---------- 1주차: 데이터
+{w:1,type:'그림 보고 생각하기',q:'digits 이미지 한 장을 칸마다 숫자로 나타낸 그림이에요. AI 모델이 이 이미지에서 실제로 받는 것은 무엇일까요?',
+ fig:F.grid(IMG0),
+ opts:['사람이 보는 것과 똑같은 그림','0~16 사이의 숫자 64개','사진 파일 1개','이미지의 이름'],a:1,
+ hint:'AI는 사람처럼 "그림"을 보는 게 아니라, 계산할 수 있는 무언가를 받아요.',
+ exp:'AI는 그림을 눈으로 보는 게 아니라 숫자 64개(8×8)를 받아요. 진한 칸일수록 큰 숫자(최대 16), 빈 칸은 0이에요. AI가 하는 일은 결국 "이 숫자 64개를 보고 어떤 숫자인지 맞히기"예요.'},
+{w:1,type:'그림 보고 생각하기',q:'같은 이미지예요. 주황색 점선 상자 안의 숫자들을 잘 보세요. 이 이미지의 label은 무엇일까요?',
+ fig:F.grid(IMG0,{box:[2,5,3,4]}),
+ opts:['숫자 1','숫자 7','숫자 0','숫자 4'],a:2,
+ hint:'가운데 칸이 거의 0이에요. 테두리만 진하고 가운데가 비어 있는 숫자는?',
+ exp:'가운데가 거의 0(빈칸)이고 바깥쪽에 큰 숫자가 동그랗게 있어요. 가운데가 뚫린 동그라미, 숫자 0이에요. 사람도 숫자들의 "패턴"을 보면 알 수 있죠? AI도 이런 패턴을 찾아내도록 학습해요.'},
+{w:1,type:'생각해 보기',q:'과일 사진 300장으로 사과·바나나·포도를 구분하는 AI를 만들려고 해요. 바르게 말한 것은?',
+ opts:['class는 3개(사과·바나나·포도)이고, 사진마다 label이 하나씩 붙는다','class는 300개이고, label은 3개다','class와 label은 완전히 같은 말이다','label은 사진의 크기를 뜻한다'],a:0,
+ hint:'class는 "종류의 목록", label은 "이 사진 한 장의 정답"이에요.',
+ exp:'구분할 종류가 사과·바나나·포도이므로 class는 3개예요. 사진 300장에는 각각 정답 label(예: "바나나")이 하나씩 붙어요. digits라면 class는 0~9의 10개, label은 1797장마다 하나씩이죠. 다른 주제에도 똑같이 적용할 수 있으면 개념을 이해한 거예요.'},
+{w:1,type:'생각해 보기',q:'정답(label)이 없는 숫자 이미지만 1000장 있어요. 우리가 배운 방법으로 학습하기 어려운 가장 큰 이유는?',
+ opts:['이미지가 너무 많아서','이미지가 흑백이라서','Tensor로 바꿀 수 없어서','예측이 맞았는지 비교할 정답이 없어서, loss를 계산할 수 없어서'],a:3,
+ hint:'3주차 학습 5단계에서 "loss 계산"을 하려면 무엇과 무엇을 비교했나요?',
+ exp:'우리가 배운 학습은 "예측 vs 정답"을 비교해서 얼마나 틀렸는지(loss)를 재고, 그만큼 고치는 방식이에요. 정답이 없으면 틀렸는지조차 알 수 없어서 고칠 수가 없어요. 그래서 데이터를 모을 때 label이 정말 중요해요.'},
+{w:1,type:'그림 보고 생각하기',q:'8×8 이미지를 그림처럼 한 줄(vector)로 펼쳤어요. 펼친 뒤에도 바뀌지 않는 것은?',
+ fig:F.flatten(),
+ opts:['숫자가 8개로 줄어든다','64개 숫자의 값은 그대로이고, 늘어선 모양만 바뀐다','모든 값이 0이 된다','label이 바뀐다'],a:1,
+ hint:'색깔(=값)이 사라지거나 바뀐 칸이 있나요?',
+ exp:'펼치기(reshape)는 줄을 세우는 방법만 바꿔요. 1번째 줄 8칸, 그 뒤에 2번째 줄 8칸… 이렇게 이어 붙여서 64칸이 돼요. 값도, 정답도 그대로예요. 4주차에서 reshape(-1, 64)가 바로 이 일을 했어요.'},
+// ---------- 2주차: Tensor와 DataLoader
+{w:2,type:'그림 보고 생각하기',q:'픽셀 값을 16으로 나누기 전과 후예요. 바르게 말한 것은?',
+ fig:F.norm(),
+ opts:['그림이 완전히 다른 숫자 모양으로 바뀐다','밝은 칸과 어두운 칸이 서로 뒤바뀐다','숫자의 크기는 0~1로 작아지지만, 어느 칸이 더 진한지는 그대로다','아무것도 바뀌지 않는다'],a:2,
+ hint:'위아래 칸의 색깔을 비교해 보세요.',
+ exp:'모든 칸을 똑같이 16으로 나누니까 크기만 0~1로 줄고, "이 칸이 저 칸보다 진하다"는 관계는 그대로예요. 그래서 그림의 모양은 변하지 않아요. 숫자가 작고 고르면 학습이 더 안정적으로 돼요.'},
+{w:2,type:'생각해 보기',q:'label 3과 label 7이 있어요. 맞는 생각은?',
+ opts:['label은 "이름표 번호"라서, 7이 3보다 크다거나 3+7을 하는 것은 의미가 없다','7이 3보다 더 좋은 정답이다','3 + 7 = 10이니까 label 10을 새로 만들 수 있다','label은 계산을 많이 하니까 소수점(float32)이 꼭 필요하다'],a:0,
+ hint:'학생 번호 3번과 7번을 더하면 10번 학생이 되나요?',
+ exp:'label은 "몇 번 종류인가"를 알려 주는 이름표예요. 학생 번호처럼 크기나 덧셈에 의미가 없어요. 그래서 이미지(X)는 계산용 float32, 정답(y)은 번호용 정수 long을 써요.'},
+{w:2,type:'그림 보고 생각하기',q:'4주차에서 학습 데이터 1500장을 batch_size=32로 나눴어요. 1 epoch 동안 batch를 몇 번 꺼낼까요?',
+ fig:F.batches(),
+ opts:['32번','46번','47번','1500번'],a:2,
+ hint:'32 × 46 = 1472예요. 그러면 몇 장이 남을까요? 남은 사진은 버릴까요?',
+ exp:'32장씩 46번 꺼내면 1472장. 남은 28장도 버리지 않고 마지막 batch로 꺼내요. 그래서 46 + 1 = 47번이에요. 4주차 코드에서 len(train_loader)가 47로 나왔어요. 마지막 batch가 28장이라서 reshape(-1, 64)의 -1이 필요했던 거예요.'},
+{w:2,type:'그림 보고 생각하기',q:'실수로 이미지(X)만 섞고 정답(y)은 섞지 않았어요. 어떤 일이 생길까요?',
+ fig:F.pairs(),
+ opts:['아무 문제 없다','학습이 더 빨라진다','이미지 개수가 줄어든다','이미지와 정답의 짝이 어긋나서, AI가 틀린 정답을 배우게 된다'],a:3,
+ hint:'"7" 이미지 아래에 붙은 정답은 몇인가요?',
+ exp:'"7" 이미지에 정답 "3"이 붙어 버렸어요. AI는 "이렇게 생긴 건 3이구나" 하고 틀리게 배워요. 그래서 TensorDataset으로 X와 y를 짝지어 묶고, DataLoader가 짝째로 섞게 하는 거예요.'},
+{w:2,type:'그림 보고 생각하기',q:'위는 데이터를 숫자 순서대로 둔 것, 아래는 섞은 것이에요. 위처럼 섞지 않고 학습하면 어떤 문제가 생길 수 있을까요?',
+ fig:F.sorted(),
+ opts:['batch를 아예 만들 수 없다','한 batch에 비슷한 숫자만 몰려 있어서, 모델이 최근에 본 숫자 쪽으로 치우치게 배울 수 있다','데이터 개수가 줄어든다','정확도가 무조건 100%가 된다'],a:1,
+ hint:'위 그림의 첫 번째 batch에는 어떤 숫자들만 있나요? 시험 범위가 한 단원씩만 나오면?',
+ exp:'섞지 않으면 처음엔 0과 1만, 마지막엔 8과 9만 보게 돼요. 모델은 매번 지금 보는 숫자에 맞춰 고치니까, 앞에서 배운 걸 덮어쓰고 마지막 숫자 쪽으로 치우칠 수 있어요. 골고루 섞어야 batch마다 여러 숫자를 골고루 배워요.'},
+// ---------- 3주차: 학습의 원리
+{w:3,type:'그림 보고 생각하기',q:'AI가 배우는 큰 흐름이에요. (가)에 들어갈 말로 가장 알맞은 것은?',
+ fig:F.flow(2),
+ opts:['loss 계산: 예측과 정답을 비교해 얼마나 틀렸는지 재기','shuffle: 데이터 순서 섞기','reshape: 이미지를 한 줄로 펼치기','정규화: 16으로 나누기'],a:0,
+ hint:'④에서 "틀린 만큼" 고치려면, 먼저 무엇을 알아야 할까요?',
+ exp:'예측을 했으면 정답과 비교해서 얼마나 틀렸는지(loss)를 재야, 그만큼 고칠 수 있어요. 데이터 준비 → 예측 → loss → 고치기 → 반복. 이게 3·4주차, 그리고 앞으로 배울 CNN에서도 똑같이 쓰이는 AI 학습의 큰 그림이에요.'},
+{w:3,type:'그림 보고 생각하기',q:'w에 따라 loss가 어떻게 바뀌는지 그린 "loss 골짜기"예요. 주황색 공(지금의 w)이 바닥으로 가려면?',
+ fig:F.valley(),
+ opts:['w를 줄인다 / 그러면 loss는 커진다','w를 키운다 / 그러면 loss는 커진다','움직이지 않는다 / loss는 그대로다','w를 키운다 / 그러면 loss는 작아진다'],a:3,
+ hint:'바닥은 공의 왼쪽에 있나요, 오른쪽에 있나요? w는 가로축이에요.',
+ exp:'바닥(w = 2)은 공의 오른쪽에 있어요. 오른쪽으로 간다 = w를 키운다. 바닥에 가까워질수록 loss는 작아져요. 지금 위치의 기울기(gradient)는 음수(내리막이 오른쪽)라서, gradient의 반대 방향인 + 쪽으로 움직이는 거예요.'},
+{w:3,type:'그림 보고 생각하기',q:'같은 문제를 보폭(learning rate)만 바꿔서 20번 학습한 loss 그래프예요. 보폭이 너무 커서 실패한 것은?',
+ fig:lrFig(),
+ opts:['A','B','C','A와 B 둘 다'],a:2,
+ hint:'학습이 잘 되면 loss는 어떻게 되어야 하나요? 줄어들어야 할까요, 커져야 할까요?',
+ exp:'C는 loss가 줄기는커녕 점점 커져서 그래프 밖으로 나가 버렸어요(20번째에는 약 25,000). 보폭이 너무 커서 골짜기 바닥을 뛰어넘고 반대편으로 더 높이 튕겨 나간 거예요. 3주차 실험의 lr = 0.1이 바로 C예요.'},
+{w:3,type:'그림 보고 생각하기',q:'같은 그래프에서 A는 loss가 줄고는 있지만 아주 천천히 줄어요. 이유와 해결 방법으로 알맞은 것은?',
+ fig:lrFig(),
+ opts:['보폭이 너무 크다 → lr을 줄인다','보폭이 너무 작다 → lr을 조금 키운다','데이터가 너무 많다 → 데이터를 지운다','정답이 틀렸다 → 정답을 바꾼다'],a:1,
+ hint:'A는 방향은 맞게 가고 있어요. 문제는 "속도"예요.',
+ exp:'A는 올바른 방향으로 가고 있지만 한 걸음이 너무 작아서 20번 만에 바닥에 못 갔어요(lr = 0.001). lr을 조금 키우면 B처럼 빨리 내려가요. 하지만 너무 키우면 C가 되죠. 알맞은 보폭을 찾는 것도 AI 공부의 중요한 일이에요.'},
+{w:3,type:'생각해 보기',q:'학습 5단계를 시험 공부에 비유했어요. loss.backward()의 "?"에 들어갈 말로 가장 알맞은 것은?',
+ fig:F.analogy(),
+ opts:['다음 시험 보기','교과서 새로 사기','틀린 문제를 보고, 무엇을 어느 방향으로 고쳐야 할지 알아내기','점수를 친구에게 자랑하기'],a:2,
+ hint:'backward는 "고칠 방향을 계산"만 하고, 실제로 고치는 건 step이에요.',
+ exp:'backward는 내비게이션처럼 "어느 쪽으로 얼마나 고쳐야 할지(gradient)"를 계산만 해요. 실제로 바꾸는 건 step이에요. 그래서 분석(backward) 다음에 실천(step)이 와야 하고, 순서가 바뀌면 안 돼요.'},
+// ---------- 4주차: 나만의 신경망
+{w:4,type:'그림 보고 생각하기',q:'우리가 만든 MyNet의 구조예요. 이 신경망을 "고양이 / 강아지" 2종류를 구분하게 바꾸려면 어디를 바꿔야 할까요? (사진은 같은 크기라고 할게요)',
+ fig:F.net(),
+ opts:['입력 64를 2로','중간 32를 2로','64와 32를 모두 2로','출력 10을 2로'],a:3,
+ hint:'출력 10개는 왜 10개였나요? 숫자 0~9를 떠올려 보세요.',
+ exp:'출력 칸은 "종류마다 점수 하나"예요. 숫자는 0~9의 10종류라서 10개였고, 고양이/강아지는 2종류니까 출력이 2개면 돼요. 즉, 마지막 칸 개수 = class 개수. 12주차 목표인 CIFAR-10도 10종류라서 출력은 10개예요.'},
+{w:4,type:'그림 보고 생각하기',q:'학습한 모델에게 시험 이미지를 보여 주고, 숫자별로 얼마나 확신하는지 그렸어요. 바르게 해석한 것은?',
+ fig:F.probs(IMG9,P9),
+ opts:['8이라고 예측했지만, 9와 많이 헷갈렸다','9라고 아주 확신했다','10개 숫자를 모두 똑같이 고민했다','0이라고 예측했다'],a:0,
+ hint:'가장 높은 막대가 모델의 예측이에요. 두 번째로 높은 막대는 얼마나 차이가 나나요?',
+ exp:'가장 높은 8(47%)을 골랐지만 9(38%)와 차이가 별로 안 나요. 실제 정답은 9였어요. 8과 9는 위쪽 동그라미가 닮아서 헷갈리기 쉬워요. 이렇게 "왜 틀렸을까?"를 살펴보는 것이 9주차 오분류 분석, 10주차 Grad-CAM으로 이어져요.'},
+{w:4,type:'그림 보고 생각하기',q:'4주차에서 MyNet을 10 epoch 학습한 loss 그래프예요. 바르게 해석한 것은?',
+ fig:F.lines([{ys:LOSS4,c:C.p}],{ymax:2.5,yticks:[0,0.5,1,1.5,2,2.5],xticks:[0,1,2,3,4,5,6,7,8,9],xlabel:'epoch',ylabel:'loss',dots:true,label:'4주차 loss 그래프'}),
+ opts:['loss가 줄었으니 모델이 배운 것을 잊어버렸다','처음엔 많이 틀렸지만, epoch가 지날수록 점점 덜 틀리게 되었다','loss가 0이 아니므로 학습은 실패했다','epoch를 늘리면 loss는 반드시 0이 된다'],a:1,
+ hint:'loss는 "오답 점수"예요. 오답 점수가 줄었다는 건?',
+ exp:'loss(오답 점수)가 2.19에서 0.23으로 줄었어요. 덜 틀리게 되었다는 뜻이에요. 0이 아니어도 시험 정확도는 약 95%였어요. 그리고 뒤로 갈수록 줄어드는 양이 작아지죠? 바닥에 가까워지면 조금씩만 좋아져요.'},
+{w:4,type:'그림 보고 생각하기',q:'도전 과제에서 중간 칸 개수만 바꿔 본 실험 결과예요. 가장 알맞은 해석은?',
+ fig:F.hbars(),
+ opts:['중간 칸이 너무 적으면 정확도가 떨어지지만, 많다고 계속 좋아지는 건 아니다','중간 칸이 많을수록 무조건 좋다','중간 칸 개수는 정확도와 전혀 상관없다','중간 칸은 4개가 가장 좋다'],a:0,
+ hint:'4 → 32로 바꿨을 때와 32 → 128로 바꿨을 때를 따로 비교해 보세요.',
+ exp:'4개는 심사위원이 너무 적어서 84.5%에 그쳤어요. 32개로 늘리니 94.9%로 올랐지만, 128개로 4배 늘려도 똑같이 94.9%였어요. "크게 만들수록 좋다"가 아니라, 실험해 보고 알맞은 크기를 찾아야 해요. 8주차 개선 실험이 바로 이런 거예요.'},
+{w:4,type:'그림 보고 생각하기',q:'A 칸 바로 아래가 B 칸이에요. 이미지를 한 줄로 펼치면 A와 B는 몇 칸 떨어지게 될까요? 그리고 이것이 뜻하는 것은?',
+ fig:F.neighbors(),
+ opts:['1칸 / 펼쳐도 이웃은 그대로 이웃이다','0칸 / A와 B가 합쳐진다','64칸 / 이미지가 사라진다','8칸 / 위아래 이웃이 멀리 떨어져서, "어떤 칸 옆에 어떤 칸이 있는지"가 잘 안 보이게 된다'],a:3,
+ hint:'한 줄은 8칸이에요. A 바로 아래 칸은, 펼쳤을 때 한 줄(8칸)을 지나서 나와요.',
+ exp:'한 줄이 8칸이니까 바로 아래 칸은 펼치면 8칸 뒤에 와요. 지금의 MyNet은 이렇게 펼친 숫자를 받아서, 위아래로 이어진 선 같은 "모양"을 알아보기 불리해요. 그래서 5주차에 배울 CNN은 이미지를 펼치지 않고, 작은 돋보기로 이웃 칸들을 함께 훑어봐요.'},
+];
+
+</script>
+<script>
+const WEEK = {1:{name:'1주차',c:'var(--p)'},2:{name:'2주차',c:'var(--p)'},3:{name:'3주차',c:'var(--p)'},4:{name:'4주차',c:'var(--p)'}};
+const $ = id => document.getElementById(id);
+let order = [], pos = 0, answered = false;
+const result = {};   // question index -> true/false (latest attempt)
+
+function show(id){ ['start','quiz','result'].forEach(s => $(s).classList.toggle('hidden', s!==id)); window.scrollTo({top:0}); }
+function correctCount(){ return Object.values(result).filter(Boolean).length; }
+function updatePill(){ $('pill').textContent = `${correctCount()} / ${QUESTIONS.length} 정답`; }
+
+function begin(list){ order = list; pos = 0; show('quiz'); render(); }
+
+function render(){
+  const qi = order[pos], Q = QUESTIONS[qi];
+  answered = false;
+  document.documentElement.style.setProperty('--accent', WEEK[Q.w].c);
+  $('bar').style.width = (pos / order.length * 100) + '%';
+  $('plabel').textContent = `${pos+1}번 / ${order.length}`;
+  $('wlabel').textContent = `전체 ${qi+1}번 문제`;
+  $('tweek').textContent = WEEK[Q.w].name;
+  $('ttype').textContent = Q.type;
+  $('qtext').textContent = Q.q;
+  const code = $('qcode');
+  if (Q.code){ code.textContent = Q.code; code.classList.remove('hidden'); } else code.classList.add('hidden');
+  const fig = $('qfig');
+  if (Q.fig){ fig.innerHTML = Q.fig; fig.classList.remove('hidden'); } else { fig.innerHTML = ''; fig.classList.add('hidden'); }
+  $('hintBox').textContent = Q.hint || ''; $('hintBox').classList.add('hidden');
+  $('hintBtn').classList.toggle('hidden', !Q.hint);
+  const box = $('opts'); box.innerHTML = '';
+  const looksCode = !!Q.mono;
+  Q.opts.forEach((o,i) => {
+    const b = document.createElement('button');
+    b.className = 'opt' + (looksCode ? ' mono' : '');
+    b.innerHTML = `<span class="num">${i+1}</span><span class="txt"></span>`;
+    b.querySelector('.txt').textContent = o;
+    b.addEventListener('click', () => choose(i));
+    box.appendChild(b);
+  });
+  $('fb').className = 'feedback';
+  $('nextBtn').disabled = true;
+  $('nextBtn').textContent = pos === order.length-1 ? '결과 보기' : '다음 문제';
+}
+
+function choose(i){
+  if (answered) return;
+  answered = true;
+  const qi = order[pos], Q = QUESTIONS[qi], ok = i === Q.a;
+  result[qi] = ok;
+  [...$('opts').children].forEach((b,j) => {
+    b.disabled = true;
+    if (j === Q.a) b.classList.add('correct');
+    else if (j === i) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+  $('fb').className = 'feedback show ' + (ok ? 'ok' : 'no');
+  $('fbTitle').textContent = ok ? '정답이에요' : `아쉬워요. 정답은 ${Q.a+1}번이에요`;
+  $('fbText').textContent = Q.exp;
+  $('nextBtn').disabled = false;
+  $('nextBtn').focus({preventScroll:true});
+  updatePill();
+}
+
+function next(){
+  if (!answered) return;
+  if (pos < order.length-1){ pos++; render(); }
+  else finish();
+}
+
+function finish(){
+  const total = QUESTIONS.length, score = correctCount();
+  $('bigScore').innerHTML = `${score}<small> / ${total}</small>`;
+  $('msg').textContent = score === total ? '완벽해요. 4주 동안 배운 걸 모두 기억하고 있어요.'
+    : score >= 16 ? '아주 잘했어요. 틀린 문제만 다시 풀어 보면 완벽해져요.'
+    : score >= 11 ? '좋아요. 틀린 문제의 해설을 다시 읽어 봐요.'
+    : '괜찮아요. 해설을 읽으면서 한 번 더 풀어 보면 훨씬 좋아질 거예요.';
+  const bars = $('bars'); bars.innerHTML = '';
+  [1,2,3,4].forEach(w => {
+    const idx = QUESTIONS.map((q,i)=>q.w===w?i:-1).filter(i=>i>=0);
+    const c = idx.filter(i=>result[i]).length;
+    const row = document.createElement('div'); row.className='bar-row';
+    row.innerHTML = `<span>${WEEK[w].name}</span><span class="bar"><i style="width:${c/idx.length*100}%;background:${WEEK[w].c}"></i></span><span style="text-align:right;font-weight:700">${c}/${idx.length}</span>`;
+    bars.appendChild(row);
+  });
+  const wrong = QUESTIONS.map((q,i)=>i).filter(i=>!result[i]);
+  const list = $('wrongList'); list.innerHTML = '';
+  wrong.forEach(i => { const li=document.createElement('li'); li.innerHTML = `<em>${i+1}번</em>`; li.append(`${WEEK[QUESTIONS[i].w].name} · ${QUESTIONS[i].q}`); list.appendChild(li); });
+  $('wrongWrap').classList.toggle('hidden', wrong.length===0);
+  $('retryWrong').classList.toggle('hidden', wrong.length===0);
+  $('bar').style.width='100%';
+  show('result');
+}
+
+$('startBtn').onclick = () => begin(QUESTIONS.map((_,i)=>i));
+$('nextBtn').onclick = next;
+$('hintBtn').onclick = () => { $('hintBox').classList.remove('hidden'); $('hintBtn').classList.add('hidden'); };
+$('retryWrong').onclick = () => begin(QUESTIONS.map((_,i)=>i).filter(i=>!result[i]));
+$('restart').onclick = () => { for (const k in result) delete result[k]; updatePill(); begin(QUESTIONS.map((_,i)=>i)); };
+document.addEventListener('keydown', e => {
+  if ($('quiz').classList.contains('hidden')) return;
+  if (['1','2','3','4'].includes(e.key) && !answered) choose(+e.key-1);
+  else if (e.key === 'Enter' && answered){ e.preventDefault(); next(); }
+});
+</script>
+</body>
+</html>
